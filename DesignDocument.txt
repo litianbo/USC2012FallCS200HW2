@@ -1,0 +1,132 @@
+image address:"cards\****";
+
+Design Documents:
+
+To play this game, we need use the mouse to click the cards, the "Turn over" at the top left corner, the "Bullshit" string under the "turn over"; and the "LOCK" under the BULLSHIT string, the console WON't print some text to help you understand the game while you playing.
+to call "Bullshit":
+Rules:
+player1 first pick As, then, after picking, he will press lock button(cards are invisible now) 
+and give the mouse to player2, 
+if player2 want to call "Bullshit", he has to press "Bullshit" before he press "turnover", 
+after that, press turnover, his cards will be displayed. 
+if we want to pause a game, we need to press "save data" and turn off the application, do whatever you want, 
+and come back, turn on the application, click "read data", it will restore all of the info you had 
+before you exit the window.
+At the start, I display all of the players' cards on purpose to show how many people are playing
+if we want to start, we have to click "File" and go to "Start", 
+if we want to quit, click file -> "Exit"
+if we want to set player's name, go to player -> set player's name
+if we want to add 1 player(at most 1 >_<). go to player-> add one player/....
+
+
+Purpose/Overview:
+This homework is pretty interesting. 
+I used buttons for all cards, labels, and JTextField, menus for graphics layout. 
+I found that we have to redo homework1 for HW2, because the layout thing doesn't work on my HW1 for some reasons
+Then, I redo the HW1 and use buttons for cards and scrollpane for cardpanel.(which is good in user interface).
+
+Requirements:
+I made a Bullshit for 2 game. one person picked As and the other one picked 2s, etc...
+you call call cheat to catch the other person's cheating behavior(wrong cards)
+if you succeed, he would get all of the cards in the deck, if you failed, you would get all of the cards in the deck....
+
+Classes:
+Game: 
+ButtonDeck gamedeck = new ButtonDeck();
+
+	
+	int turncounter = 0;
+	boolean cheat = false;
+	ArrayList<Player> player = new ArrayList<Player>();
+	// Layout Stuff
+	JLabel decklabel = new JLabel("Deck: ");
+	JPanel cardpanel = new JPanel();
+	JPanel leftcardpanel = new JPanel();
+	JPanel buttonpanel = new JPanel();
+	JPanel deckpanel = new JPanel();
+	JPanel enterp1namepanel = new JPanel();
+	JPanel p1namepanel = new JPanel();
+	JPanel p2namepanel = new JPanel();
+	JPanel p3namepanel = new JPanel();
+	JPanel enterp2namepanel = new JPanel();
+	JPanel enterp3namepanel = new JPanel();
+	JPanel panel3 = new JPanel();
+	JPanel wonpanel1 = new JPanel();
+	JPanel wonpanel2 = new JPanel();
+	JPanel wonpanel3 = new JPanel();
+	boolean p1turn = true;
+	boolean p2turn = false;
+	boolean p3turn = false;
+	boolean p4turn = false;
+	boolean lockbool = false;
+	JScrollPane scorllcardpane1 = new JScrollPane(cardpanel);
+	JScrollPane scorllcardpane2 = new JScrollPane(leftcardpanel);
+	JScrollPane scorllcardpane3 = new JScrollPane(panel3);
+	JButton lock = new JButton("Lock");
+	JButton turnover = new JButton("Turnover");
+	JButton bullshit = new JButton("BullShit");
+	GridBagConstraints c = new GridBagConstraints();
+	JFrame app;
+	String leftname, rightname;
+	JMenuBar menubar;
+	JMenu file, players;
+	JMenuItem exit, start, addplayer, savedata, readdata, setp1name, setp2name,
+			setp3name;
+	JTextField enterp1name, enterp2name, enterp3name;
+	JLabel p1name, p2name, p3name,wonlabel1,wonlabel2,wonlabel3;
+	
+gameStart() start a game when the application is turned on.
+Main(you called it Application....):
+initiate Game in this class
+actionperformed(): to handle all of the mouse and keyboard input. which is the most complex method in this class.
+
+Player class just use serilzable to store the data and read the data.;
+ButtonCard class:
+Nothing special.
+ButtonDeck class:
+create an arrayList of cards...
+final int DECKSIZE = 52;
+	final char[] cardNames = { 'a', '2', '3', '4', '5', '6', '7', '8', '9',
+			't', 'j', 'q', 'k' };
+	final char[] suitNames = { 'h', 'c', 'd', 's' };
+	ArrayList<ButtonCard> allcards,cards, leftcards, thirdcards;
+
+	JPanel cardpanel = new JPanel(new GridLayout());
+	JPanel deckpanel = new JPanel(new FlowLayout());
+	boolean p1turn = true;
+	boolean p2turn = false;
+	boolean p3turn = false;
+	boolean p4turn = false;
+
+	GridBagConstraints c = new GridBagConstraints();
+	ArrayList<ButtonCard> tempdeck = new ArrayList<ButtonCard>();
+	ArrayList<ButtonCard> fakedeck = new ArrayList<ButtonCard>();
+	ArrayList<ButtonCard> deckcards = new ArrayList<ButtonCard>();
+
+Global Data/Functions
+deckcounter in the Game class:
+I keep track the cards' number before turn over, and help the bullshit command to know what excatly number of cards last person picked.
+High-level Architecture
+I call ArrayList<Player> player = new ArrayList<Player>Player() in Game; to keep the data of all of the players there.
+I call ButtonDeck gamedeck = new ButtonDeck in Game; to initate an arraylist 
+I call Game game = new Game() in the Main class
+Main pass "this" to game, and manipulate it.
+User Interface
+Windows displayed String "Turn over " ,"Lock" , user names, and "Bullshit" and all cards...
+
+Test Cases
+1.pick A first and call bullshit
+2.pick A, J,and call bullshit
+3.pick 2 and call bullshit
+4.pick 2,A and call bullshit
+5.turn over, pick 2 and call bullshit
+6.turn over, pick 2, A and call bullshit
+7.turn over, pick A, 2 and call bullshit
+8.turn over, pick 3 and call bullshit;
+9.turn over, pick 3, 2 and call bullshit;
+10.  pick A, turn over,pick 2 and call bullshit;
+11. pick 2, turn over, pick 2 and call bullshit;
+12.pick J, turn over, pick Q and call bullshit;
+etc.....
+the reason I do that is that I need to make sure my for loop in the actionPerformed really do what the rule says.
+During the test, I fixed some problems encoutered in the loop code(especally varible deckcounter).
